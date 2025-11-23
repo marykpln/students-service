@@ -1,40 +1,22 @@
-import Student from "../model/student.js";
+import {Router} from "express";
+import {
+    addScore,
+    addStudent, countByNames,
+    deleteStudent, findByMinScore,
+    findByName,
+    findStudent,
+    updateStudent
+} from "../controller/studentController.js";
 
-export function createStudent(student) {
-    return Student.create(student);
-}
+const router = Router();
 
+router.post("/student", addStudent);
+router.get('/student/:id', findStudent);
+router.delete('/student/:id', deleteStudent);
+router.patch('/student/:id', updateStudent);
+router.patch('/score/student/:id', addScore);
+router.get('/students/name/:name', findByName);
+router.get('/quantity/students', countByNames);
+router.get('/students/exam/:exam/minscore/:minScore', findByMinScore);
 
-export function findStudentById(id) {
-    return Student.findById(id);
-}
-
-export function deleteStudentById(id) {
-    return Student.findByIdAndDelete(id);
-}
-
-export function updateStudent(id, data) {
-    return Student.findByIdAndUpdate(id, data, {new: true});
-}
-
-export function updateStudentScore(id, exam, score) {
-    return Student.findByIdAndUpdate(id, {[`scores.${exam}`]: score});
-}
-
-
-export function findStudentByName(name) {
-    return Student.find({name: {$regex: new RegExp(`^${name}$`, "i")}});
-}
-
-export function countStudentsByName(names) {
-   const regexConditions = names.map(name => ({name: new RegExp(`^${name}$`, "i")}));
-   return Student.countDocuments({$or: regexConditions});
-}
-
-export function findStudentsByMinScore(exam, minScore) {
-    return Student.find({[`scores.${exam}`]: {$gte: minScore}});
-}
-
-
-
-
+export default router;

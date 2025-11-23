@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 export const studentSchema = Joi.object({
     id: Joi.number().required(),
@@ -12,7 +12,7 @@ export const updateStudentSchema = Joi.object({
 })
 
 export const scoreSchema = Joi.object({
-   examName: Joi.string().required(),
+    examName: Joi.string().required(),
     score: Joi.number().min(0).max(100).required()
 })
 

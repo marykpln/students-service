@@ -1,13 +1,14 @@
-import * as service from '../service/studentService.js';
+import * as service from "../service/studentService.js";
 import {scoreSchema, studentSchema, updateStudentSchema} from "../validator/studentValidator.js";
+
 
 export const addStudent = async (req, res) => {
     const {error} = studentSchema.validate(req.body);
     if (error) {
-       return res.status(400).json(error.details[0].message);
+        return res.status(400).json({error: error.details[0].message});
     }
     const success = await service.addStudent(req.body);
-    res.sendStatus(success ? 201 : 409);
+    res.sendStatus(success ? 201 : 409)
 }
 
 export const findStudent = async (req, res) => {
@@ -22,7 +23,7 @@ export const findStudent = async (req, res) => {
 export const updateStudent = async (req, res) => {
     const {error} = updateStudentSchema.validate(req.body);
     if (error) {
-       return res.status(400).json({error: error.details[0].message});
+        return res.status(400).json({error: error.details[0].message});
     }
     const student = await service.updateStudent(+req.params.id, req.body);
     if (student) {
@@ -44,10 +45,10 @@ export const deleteStudent = async (req, res) => {
 export const addScore = async (req, res) => {
     const {error} = scoreSchema.validate(req.body);
     if (error) {
-     return res.status(400).json({error: error.details[0].message});
+        return res.status(400).json({error: error.details[0].message});
     }
     const success = await service.addScore(+req.params.id, req.body.examName, +req.body.score);
-   res.sendStatus(success ? 201 : 409);
+    res.sendStatus(success ? 204 : 404);
 }
 
 export const findByName = async (req, res) => {
@@ -61,10 +62,9 @@ export const countByNames = async (req, res) => {
     res.json(count)
 }
 
-export const findByMinScore  = async  (req, res) => {
+export const findByMinScore = async (req, res) => {
     const students = await service.findByMinScore(req.params.exam, +req.params.minScore);
     res.json(students);
 }
-
 
 

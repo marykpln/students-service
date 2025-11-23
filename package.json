@@ -5,20 +5,29 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:controller": "node --experimental-vm-modules node_modules/jest/bin/jest.js src/__test__/studentController.test.js",
+    "test:service": "node --experimental-vm-modules node_modules/jest/bin/jest.js src/__test__/studentService.test.js"
   },
   "keywords": [],
-  "author": "mary",
+  "author": "edward",
   "license": "ISC",
   "dependencies": {
+    "@jest/globals": "^30.2.0",
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "joi": "^18.0.1",
-    "mongodb": "^7.0.0",
     "mongoose": "^8.19.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
   }
 }
